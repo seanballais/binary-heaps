@@ -27,48 +27,15 @@ public class BinaryHeap
     public void delete()
     {
         Node.swapValues(this.root, this.lastNode);
-        Node lastNodeParent = this.lastNode.getParent();
 
+        Node lastNodeParent = this.lastNode.getParent();
         if (lastNodeParent.getLeftChild() == lastNode) {
             lastNodeParent.setLeftChild(null);
         } else if (lastNodeParent.getRightChild() == lastNode) {
             lastNodeParent.setRightChild(null);
         }
 
-        Node anomalousNode = this.root;
-        if (this.heapType == 0 && anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
-            // Min-heaps
-            Node minNode;
-
-            while (anomalousNode.getLeftChild().getValue() < anomalousNode.getValue() ||
-                   anomalousNode.getRightChild().getValue() < anomalousNode.getValue()) {
-
-                minNode = this.getMin(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
-                Node.swapValues(anomalousNode, minNode);
-
-                anomalousNode = minNode;
-
-                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
-                    break;
-                }
-            }
-        } else if (this.heapType == 1 anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
-            // Max-heaps
-            Node maxNode;
-
-            while (anomalousNode.getLeftChild().getValue() > anomalousNode.getValue() ||
-                   anomalousNode.getRightChild().getValue() > anomalousNode.getValue()) {
-
-                maxNode = this.getMax(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
-                Node.swapValues(anomalousNode, maxNode);
-
-                anomalousNode = maxNode;
-
-                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
-                    break;
-                }
-            }
-        }
+        this.fixHeapOrderAfterDeletion(this.root);
     }
 
     public String getContents();
@@ -132,10 +99,50 @@ public class BinaryHeap
         }
     }
 
+    private void fixHeapOrderAfterDeletion(Node anomalousNode)
+    {
+        if (this.heapType == 0 && anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
+            // Min-heaps
+
+            Node minNode;
+
+            while (anomalousNode.getLeftChild().getValue() < anomalousNode.getValue() ||
+                   anomalousNode.getRightChild().getValue() < anomalousNode.getValue()) {
+
+                minNode = this.getMin(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
+                Node.swapValues(anomalousNode, minNode);
+
+                anomalousNode = minNode;
+
+                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
+                    break;
+                }
+            }
+        } else if (this.heapType == 1 anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
+            // Max-heaps
+
+            Node maxNode;
+
+            while (anomalousNode.getLeftChild().getValue() > anomalousNode.getValue() ||
+                   anomalousNode.getRightChild().getValue() > anomalousNode.getValue()) {
+
+                maxNode = this.getMax(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
+                Node.swapValues(anomalousNode, maxNode);
+
+                anomalousNode = maxNode;
+
+                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
+                    break;
+                }
+            }
+        }
+    }
+
     private void fixHeapOrderAfterInsert(Node anomalousNode)
     {
         if (this.heapType == 0 && anomalousNode.getParent() != null) {
             // Min-heaps
+
             while (anomalousNode.getParent().getValue() > anomalousNode.getValue()) {
                 // In min-heaps, the parent's value must be less than or equal to the
                 // value of its children.
@@ -149,6 +156,7 @@ public class BinaryHeap
             }
         } else if (this.heapType == 1 && anomalousNode.getParent() != null) {
             // Max-heaps
+
             while (anomalousNode.getParent().getValue() < anomalousNode.getValue()) {
                 // In max-heaps, the parent's value must be greater than or equal to the
                 // value of its children.
