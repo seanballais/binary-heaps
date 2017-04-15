@@ -6,6 +6,7 @@ import java.util.Queue;
 public class BinaryHeap
 {
     private Node root;
+    private Node lastNode; // This will always point to the last node.
     private byte heapType;
 
     public BinaryHeap(byte heapType)
@@ -20,15 +21,92 @@ public class BinaryHeap
     private void insert(Node newNode)
     {
         this.addNode(newNode);
-        this.fixHeapOrder(newNode);
+        this.fixHeapOrderAfterInsert(newNode);
     }
 
-    public void delete();
+    public void delete()
+    {
+        Node.swapValues(this.root, this.lastNode);
+        Node lastNodeParent = this.lastNode.getParent();
+
+        if (lastNodeParent.getLeftChild() == lastNode) {
+            lastNodeParent.setLeftChild(null);
+        } else if (lastNodeParent.getRightChild() == lastNode) {
+            lastNodeParent.setRightChild(null);
+        }
+
+        Node anomalousNode = this.root;
+        if (this.heapType == 0 && anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
+            // Min-heaps
+            Node minNode;
+
+            while (anomalousNode.getLeftChild().getValue() < anomalousNode.getValue() ||
+                   anomalousNode.getRightChild().getValue() < anomalousNode.getValue()) {
+
+                minNode = this.getMin(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
+                Node.swapValues(anomalousNode, minNode);
+
+                anomalousNode = minNode;
+
+                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
+                    break;
+                }
+            }
+        } else if (this.heapType == 1 anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
+            // Max-heaps
+            Node maxNode;
+
+            while (anomalousNode.getLeftChild().getValue() > anomalousNode.getValue() ||
+                   anomalousNode.getRightChild().getValue() > anomalousNode.getValue()) {
+
+                maxNode = this.getMax(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
+                Node.swapValues(anomalousNode, maxNode);
+
+                anomalousNode = maxNode;
+
+                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
+                    break;
+                }
+            }
+        }
+    }
 
     public String getContents();
 
+    private Node getMax(Node first, Node second)
+    {
+        if (first == null) {
+            return second;
+        } else if (second == null) {
+            return first;
+        }
+
+        if (Math.max(first.getValue(), second.getValue()) == first.getValue()) {
+            return first;
+        } else {
+            return second;
+        }
+    }
+
+    private Node getMin(Node first, Node second)
+    {
+        if (first == null) {
+            return second;
+        } else if (second == null) {
+            return first;
+        }
+
+        if (Math.min(first.getValue(), second.getValue()) == first.getValue()) {
+            return first;
+        } else {
+            return second;
+        }
+    }
+
     private void addNode(Node newNode)
     {
+        this.lastNode = newNode;
+
         if (this.root == null) {
             this.root = newNode;
         }
@@ -54,9 +132,9 @@ public class BinaryHeap
         }
     }
 
-    private void fixHeapOrder(Node anomalousNode)
+    private void fixHeapOrderAfterInsert(Node anomalousNode)
     {
-        if (this.heapType == 0) {
+        if (this.heapType == 0 && anomalousNode.getParent() != null) {
             // Min-heaps
             while (anomalousNode.getParent().getValue() > anomalousNode.getValue()) {
                 // In min-heaps, the parent's value must be less than or equal to the
@@ -64,8 +142,12 @@ public class BinaryHeap
 
                 Node.swapValues(anomalousNode.getParent(), anomalousNode);
                 anomalousNode = anomalousNode.getParent();
+
+                if (anomalousNode == null) {
+                    break;
+                }
             }
-        } else if (this.heapType == 1) {
+        } else if (this.heapType == 1 && anomalousNode.getParent() != null) {
             // Max-heaps
             while (anomalousNode.getParent().getValue() < anomalousNode.getValue()) {
                 // In max-heaps, the parent's value must be greater than or equal to the
@@ -73,6 +155,10 @@ public class BinaryHeap
 
                 Node.swapValues(anomalousNode.getParent(), anomalousNode);
                 anomalousNode = anomalousNode.getParent();
+
+                if (anomalousNode == null) {
+                    break;
+                }
             }
         }
     }
