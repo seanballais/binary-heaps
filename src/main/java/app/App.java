@@ -54,7 +54,6 @@ public class App
         while (true) {
             System.out.print("Choose operation [(D)elete | (I)nsert | (E)xit]: ");
             optChar = Character.toLowerCase(scanner.nextLine().charAt(0));
-            scanner.nextLine(); // Eat up any remaining characters.
 
             if (optChar == 'd') {
                 System.out.println("Deleting root node.");
@@ -72,6 +71,8 @@ public class App
 
             System.out.println("Resulting Heap");
             System.out.println(binaryHeap.getContents());
+
+            scanner.nextLine(); // Discard remaining characters (if any).
         }
     }
 }
