@@ -61,6 +61,7 @@ public class App
             } else if (optChar == 'i') {
                 System.out.print("Value to be inserted: ");
                 binaryHeap.insert(new Node(null, scanner.nextInt()));
+                scanner.nextLine(); // Discard remaining characters (if any).
             } else if (optChar == 'e') {
                 System.out.println("Exiting...");
                 break;
@@ -71,8 +72,6 @@ public class App
 
             System.out.println("Resulting Heap");
             System.out.println(binaryHeap.getContents());
-
-            scanner.nextLine(); // Discard remaining characters (if any).
         }
     }
 }

@@ -44,23 +44,30 @@ public class BinaryHeap
 
     public String getContents()
     {
-        return this.getContents(this.root, "");
+        return this.getContents(this.root, "", 0);
     }
 
-    private String getContents(Node currentNode, String currentLine)
+    private String getContents(Node currentNode, String currentLine, int numTabs)
     {
         if (currentNode == null) {
             return "";
         }
 
-        currentLine += String.format("(%d (", currentNode.getValue());
+        StringBuilder additionalSpaces = new StringBuilder();
+        for (int i = 0; i < numTabs; i++) {
+            additionalSpaces.append("    ");
+        }
+
+        currentLine += (additionalSpaces.toString() + String.format("(%d (", currentNode.getValue()));
 
         if (currentNode.getLeftChild() != null) {
-            currentLine = this.getContents(currentNode.getLeftChild(), currentLine);
+            currentLine += '\n';
+            currentLine = this.getContents(currentNode.getLeftChild(), currentLine, numTabs + 1);
         }
 
         if (currentNode.getRightChild() != null) {
-            currentLine = this.getContents(currentNode.getRightChild(), currentLine);
+            currentLine += '\n';
+            currentLine = this.getContents(currentNode.getRightChild(), currentLine, numTabs + 1);
         }
 
         currentLine += "))";
@@ -181,6 +188,14 @@ public class BinaryHeap
 
                 if (anomalousNode == null) {
                     break;
+                } else {
+                    if (anomalousNode.getParent() != null) {
+                        if (anomalousNode.getParent().getValue() < anomalousNode.getValue()) {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
                 }
             }
         } else if (this.heapType == 1 && anomalousNode.getParent() != null) {
@@ -193,8 +208,17 @@ public class BinaryHeap
                 Node.swapValues(anomalousNode.getParent(), anomalousNode);
                 anomalousNode = anomalousNode.getParent();
 
+                // Ew! Looks ugly. :(
                 if (anomalousNode == null) {
                     break;
+                } else {
+                    if (anomalousNode.getParent() != null) {
+                        if (anomalousNode.getParent().getValue() > anomalousNode.getValue()) {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
                 }
             }
         }
