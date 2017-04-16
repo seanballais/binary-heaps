@@ -18,7 +18,7 @@ public class BinaryHeap
         this.heapType = heapType;
     }
 
-    private void insert(Node newNode)
+    public void insert(Node newNode)
     {
         this.addNode(newNode);
         this.fixHeapOrderAfterInsert(newNode);
@@ -26,6 +26,10 @@ public class BinaryHeap
 
     public void delete()
     {
+        if (this.root == null) {
+            return;
+        }
+
         Node.swapValues(this.root, this.lastNode);
 
         Node lastNodeParent = this.lastNode.getParent();
@@ -38,7 +42,31 @@ public class BinaryHeap
         this.fixHeapOrderAfterDeletion(this.root);
     }
 
-    public String getContents();
+    public String getContents()
+    {
+        return this.getContents(this.root, "");
+    }
+
+    private String getContents(Node currentNode, String currentLine)
+    {
+        if (currentNode == null) {
+            return "";
+        }
+
+        currentLine += String.format("(%d (", currentNode.getValue());
+
+        if (currentNode.getLeftChild() != null) {
+            currentLine = this.getContents(currentNode.getLeftChild(), currentLine);
+        }
+
+        if (currentNode.getRightChild() != null) {
+            currentLine = this.getContents(currentNode.getRightChild(), currentLine);
+        }
+
+        currentLine += "))";
+
+        return currentLine;
+    }
 
     private Node getMax(Node first, Node second)
     {
@@ -76,6 +104,7 @@ public class BinaryHeap
 
         if (this.root == null) {
             this.root = newNode;
+            return;
         }
 
         // Modified BFS to insert new nodes in the heap.
@@ -109,7 +138,7 @@ public class BinaryHeap
             while (anomalousNode.getLeftChild().getValue() < anomalousNode.getValue() ||
                    anomalousNode.getRightChild().getValue() < anomalousNode.getValue()) {
 
-                minNode = this.getMin(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
+                minNode = this.getMin(anomalousNode.getLeftChild(), anomalousNode.getRightChild());
                 Node.swapValues(anomalousNode, minNode);
 
                 anomalousNode = minNode;
@@ -118,7 +147,7 @@ public class BinaryHeap
                     break;
                 }
             }
-        } else if (this.heapType == 1 anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
+        } else if (this.heapType == 1 && anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
             // Max-heaps
 
             Node maxNode;
@@ -126,7 +155,7 @@ public class BinaryHeap
             while (anomalousNode.getLeftChild().getValue() > anomalousNode.getValue() ||
                    anomalousNode.getRightChild().getValue() > anomalousNode.getValue()) {
 
-                maxNode = this.getMax(anomalousNode.getLeftChild(), anomalousNode.getRightChild();
+                maxNode = this.getMax(anomalousNode.getLeftChild(), anomalousNode.getRightChild());
                 Node.swapValues(anomalousNode, maxNode);
 
                 anomalousNode = maxNode;

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/heaps.iml" filepath="$PROJECT_DIR$/.idea/modules/heaps.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/heaps_main.iml" filepath="$PROJECT_DIR$/.idea/modules/heaps_main.iml" group="heaps" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/heaps_test.iml" filepath="$PROJECT_DIR$/.idea/modules/heaps_test.iml" group="heaps" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/binary-heaps.iml" filepath="$PROJECT_DIR$/.idea/modules/binary-heaps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/binary-heaps_main.iml" filepath="$PROJECT_DIR$/.idea/modules/binary-heaps_main.iml" group="binary-heaps" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/binary-heaps_test.iml" filepath="$PROJECT_DIR$/.idea/modules/binary-heaps_test.iml" group="binary-heaps" />
     </modules>
   </component>
 </project>
