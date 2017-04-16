@@ -16,13 +16,19 @@ public class Node
     public void setLeftChild(Node child)
     {
         this.leftChild = child;
-        this.leftChild.setParent(this);
+
+        if (this.leftChild != null) {
+            this.leftChild.setParent(this);
+        }
     }
 
     public void setRightChild(Node child)
     {
         this.rightChild = child;
-        this.rightChild.setParent(this);
+
+        if (this.rightChild != null) {
+            this.rightChild.setParent(this);
+        }
     }
 
     public void setValue(int value)

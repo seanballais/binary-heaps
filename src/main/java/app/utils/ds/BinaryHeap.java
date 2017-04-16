@@ -40,6 +40,7 @@ public class BinaryHeap
         }
 
         this.fixHeapOrderAfterDeletion(this.root);
+        this.lastNode = this.getLastNode();
     }
 
     public String getContents()
@@ -143,39 +144,68 @@ public class BinaryHeap
         }
     }
 
+    private Node getLastNode()
+    {
+        if (this.root == null) {
+            return this.root;
+        }
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(this.root);
+
+        Node current = this.root;
+        while (!q.isEmpty()) {
+            current = q.remove();
+
+            if (current.getLeftChild() != null) {
+                q.add(current.getLeftChild());
+            }
+
+            if (current.getRightChild() != null) {
+                q.add(current.getRightChild());
+            }
+        }
+
+        return current;
+    }
+
     private void fixHeapOrderAfterDeletion(Node anomalousNode)
     {
-        if (this.heapType == 0 && anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
+        if (this.root.getLeftChild() == null && this.root.getRightChild() == null) {
+            return;
+        }
+
+        if (this.heapType == 0) {
             // Min-heaps
 
             Node minNode;
 
-            while (anomalousNode.getLeftChild().getValue() < anomalousNode.getValue() ||
-                   anomalousNode.getRightChild().getValue() < anomalousNode.getValue()) {
+            while (anomalousNode.getLeftChild().getValue() < anomalousNode.getValue()) {
+                // Note: The left child will always be filled assuming we have an incomplete last level.
 
                 minNode = this.getMin(anomalousNode.getLeftChild(), anomalousNode.getRightChild());
                 Node.swapValues(anomalousNode, minNode);
 
                 anomalousNode = minNode;
 
-                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
+                if (anomalousNode.getLeftChild() == null) {
                     break;
                 }
             }
-        } else if (this.heapType == 1 && anomalousNode.getLeftChild() != null && anomalousNode.getRightChild() != null) {
+        } else if (this.heapType == 1) {
             // Max-heaps
 
             Node maxNode;
 
-            while (anomalousNode.getLeftChild().getValue() > anomalousNode.getValue() ||
-                   anomalousNode.getRightChild().getValue() > anomalousNode.getValue()) {
+            while (anomalousNode.getLeftChild().getValue() > anomalousNode.getValue()) {
+                // Note: The left child will always be filled assuming we have an incomplete last level.
 
                 maxNode = this.getMax(anomalousNode.getLeftChild(), anomalousNode.getRightChild());
                 Node.swapValues(anomalousNode, maxNode);
 
                 anomalousNode = maxNode;
 
-                if (anomalousNode.getLeftChild() == null && anomalousNode.getRightChild() == null) {
+                if (anomalousNode.getLeftChild() == null) {
                     break;
                 }
             }
