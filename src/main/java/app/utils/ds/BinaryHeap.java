@@ -60,14 +60,22 @@ public class BinaryHeap
 
         currentLine += (additionalSpaces.toString() + String.format("(%d (", currentNode.getValue()));
 
+        boolean hasChildren = false;
+
         if (currentNode.getLeftChild() != null) {
             currentLine += '\n';
             currentLine = this.getContents(currentNode.getLeftChild(), currentLine, numTabs + 1);
+            hasChildren = true;
         }
 
         if (currentNode.getRightChild() != null) {
             currentLine += '\n';
             currentLine = this.getContents(currentNode.getRightChild(), currentLine, numTabs + 1);
+            hasChildren = true;
+        }
+
+        if (hasChildren) {
+            currentLine += ('\n' + additionalSpaces.toString());
         }
 
         currentLine += "))";
