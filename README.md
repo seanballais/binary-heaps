@@ -1,2 +1,3 @@
-# heaps
-Implementing heaps.
+# Binary Heaps
+
+Binary heap implementation for coursework.
